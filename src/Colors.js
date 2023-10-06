@@ -1,4 +1,4 @@
-const color = {
+const Colors = {
     main: "#48B600",
     white: "#FFFFFF",
     black: "#000000",
@@ -13,4 +13,4 @@ const color = {
     paypal: "3FFB730",
 }
 
-export default color;
+export default Colors;
