@@ -11,7 +11,7 @@ import {
 import React, { useState } from 'react';
 import Colors from '../Colors';
 import Rating from './Rating';
-import Message from './Message';
+import Message from './Notifications/Message';
 import Buttone from './Buttone';
 
 function Review({}) {
