@@ -4,8 +4,10 @@ import Colors from '../Colors';
 // import CartEmpty from '../Components/CartEmpty';
 import CartItems from '../Components/CartItems';
 import Buttone from '../Components/Buttone';
+import { useNavigation } from '@react-navigation/native';
 
 const CartScreen = () => {
+    const navigation = useNavigation();
     return (
         <Box flex={1} safeAreaTop bg={Colors.subGreen}>
             {/* header */}
@@ -51,7 +53,12 @@ const CartScreen = () => {
                 </Center>
                 {/* Checkout */}
                 <Center px={5}>
-                    <Buttone bg={Colors.black} color={Colors.white} mt={10}>
+                    <Buttone
+                        onPress={() => navigation.navigate('Shipping')}
+                        bg={Colors.black}
+                        color={Colors.white}
+                        mt={10}
+                    >
                         CHECKOUT
                     </Buttone>
                 </Center>

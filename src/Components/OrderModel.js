@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Center, HStack, Modal, VStack, Text, Button } from 'native-base';
+import {
+    Center,
+    HStack,
+    Modal,
+    VStack,
+    Text,
+    Button,
+    Pressable,
+    Image,
+} from 'native-base';
 import Buttone from './Buttone';
 import Colors from '../Colors';
 import { useNavigation } from '@react-navigation/native';
@@ -27,20 +36,19 @@ const OrdersInfos = [
     },
 ];
 
-const PlaceOrderModel = () => {
+const OrderModel = () => {
     const navigation = useNavigation();
-
     const [showModel, setShowModel] = useState(false);
 
     return (
         <Center>
             <Buttone
                 onPress={() => setShowModel(true)}
-                bg={Colors.black}
+                bg={Colors.main}
                 color={Colors.white}
                 mt={5}
             >
-                SHOW TOTAL
+                SHOW PAYMENT & TOTAL
             </Buttone>
             <Modal
                 isOpen={showModel}
@@ -74,20 +82,38 @@ const PlaceOrderModel = () => {
                         </VStack>
                     </Modal.Body>
                     <Modal.Footer>
+                        <Pressable
+                            w="full"
+                            justifyContent="center"
+                            bg={Colors.paypal}
+                            h={45}
+                            rounded={2}
+                            overflow="hidden"
+                            onPress={() => setShowModel(false)}
+                        >
+                            <Image
+                                source={require('../../assets/images/paypal.png')}
+                                alt="paypal"
+                                resizeMode="contain"
+                                w="full"
+                                h={34}
+                            />
+                        </Pressable>
                         <Button
-                            flex={1}
-                            bg={Colors.main}
+                            w="full"
+                            mt={3}
+                            bg={Colors.black}
                             h={45}
                             _text={{ color: Colors.white }}
                             onPress={() => {
-                                navigation.navigate('Order');
+                                navigation.navigate('Home');
                                 setShowModel(false);
                             }}
                             _pressed={{
-                                bg: Colors.main,
+                                bg: Colors.black,
                             }}
                         >
-                            PLACE AN ORDER
+                            PAY LATER
                         </Button>
                     </Modal.Footer>
                 </Modal.Content>
@@ -96,4 +122,4 @@ const PlaceOrderModel = () => {
     );
 };
 
-export default PlaceOrderModel;
+export default OrderModel;
