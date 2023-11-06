@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Center,
     HStack,
@@ -9,36 +9,37 @@ import {
     Pressable,
     Image,
 } from 'native-base';
-import Buttone from './Buttone';
-import Colors from '../Colors';
+import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import Colors from '../Colors';
+import Buttone from './Buttone';
+import { OrdersInfos, calculateTotalPrice } from '../data/OrdersInfos';
+import { sendOrderData } from '../store/order-actions';
 
-const OrdersInfos = [
-    {
-        title: 'Products',
-        price: 125.77,
-        color: 'black',
-    },
-    {
-        title: 'Shipping',
-        price: 34.0,
-        color: 'black',
-    },
-    {
-        title: 'Tax',
-        price: 23.34,
-        color: 'black',
-    },
-    {
-        title: 'Total Amount',
-        price: 3458.0,
-        color: 'main',
-    },
-];
-
-const OrderModel = () => {
+const OrderModel = ({ data }) => {
     const navigation = useNavigation();
     const [showModel, setShowModel] = useState(false);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const cartItems = useSelector((state) => state.cart);
+    const currentUser = useSelector((state) => state.auth.currentUser.id);
+
+    const { itemList, totalQuantity } = cartItems;
+
+    const ordersInfoList = OrdersInfos();
+
+    // Calculation total price
+    useEffect(() => {
+        setTotalPrice(calculateTotalPrice(cartItems));
+    }, [cartItems]);
+
+    const state = [
+        ...data.params,
+        { cartItems: itemList, totalQuantity, totalPrice },
+    ];
+
+    const handlePay = () => {
+        sendOrderData(currentUser, state);
+    };
 
     return (
         <Center>
@@ -60,7 +61,7 @@ const OrderModel = () => {
                     <Modal.Header>Order</Modal.Header>
                     <Modal.Body>
                         <VStack space={7}>
-                            {OrdersInfos.map((i, index) => (
+                            {ordersInfoList.map((i, index) => (
                                 <HStack
                                     key={index}
                                     alignItems="center"
@@ -108,12 +109,13 @@ const OrderModel = () => {
                             onPress={() => {
                                 navigation.navigate('Home');
                                 setShowModel(false);
+                                handlePay();
                             }}
                             _pressed={{
                                 bg: Colors.black,
                             }}
                         >
-                            PAY LATER
+                            PAY
                         </Button>
                     </Modal.Footer>
                 </Modal.Content>

@@ -1,41 +1,53 @@
 import {
     Box,
     Center,
-    FormControl,
     HStack,
+    Icon,
     Image,
-    Input,
+    Pressable,
+    Radio,
     ScrollView,
-    Spacer,
     Text,
     VStack,
 } from 'native-base';
-import React from 'react';
+import React, { useState } from 'react';
 import Colors from '../Colors';
 import Buttone from '../Components/Buttone';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 
 const paymentMethodes = [
     {
+        value: '1',
         image: require('../../assets/images/paypal.png'),
         alt: 'paypal',
         icon: 'Ionicons',
     },
     {
+        value: '2',
         image: require('../../assets/images/discover.png'),
         alt: 'discover',
         icon: 'FontAwesome',
     },
     {
+        value: '3',
         image: require('../../assets/images/googlepay.png'),
         alt: 'googlepay',
         icon: 'FontAwesome',
     },
 ];
 
-const PaymentScreen = () => {
-    const navigation = useNavigation();
+const PaymentScreen = ({ route, navigation }) => {
+    const dataFromShipping = route.params;
+    const [payValue, setPayValue] = useState('1');
+    const [payIndex, setPayIndex] = useState(1);
+
+    const handlePress = (value, index) => {
+        setPayValue(value);
+        setPayIndex(index);
+    };
+
+    const state = [dataFromShipping, { pay: paymentMethodes[payIndex].alt }];
+
     return (
         <Box flex={1} safeAreaTop bg={Colors.main} py={5}>
             {/* Header */}
@@ -67,23 +79,29 @@ const PaymentScreen = () => {
                                         alt={i.alt}
                                     />
                                 </Box>
-                                {i.icon === 'Ionicons' ? (
-                                    <Ionicons
-                                        name="checkmark-circle"
-                                        size={30}
-                                        color={Colors.main}
-                                    />
-                                ) : (
-                                    <FontAwesome
-                                        name="circle-thin"
-                                        size={30}
-                                        color={Colors.main}
-                                    />
-                                )}
+                                <Pressable
+                                    onPress={() => handlePress(i.value, index)}
+                                >
+                                    {payValue === i.value ? (
+                                        <Ionicons
+                                            name="checkmark-circle"
+                                            size={30}
+                                            color={Colors.main}
+                                        />
+                                    ) : (
+                                        <FontAwesome
+                                            name="circle-thin"
+                                            size={30}
+                                            color={Colors.main}
+                                        />
+                                    )}
+                                </Pressable>
                             </HStack>
                         ))}
                         <Buttone
-                            onPress={() => navigation.navigate('Placeorder')}
+                            onPress={() =>
+                                navigation.navigate('Placeorder', state)
+                            }
                             bg={Colors.main}
                             color={Colors.white}
                             mt={5}

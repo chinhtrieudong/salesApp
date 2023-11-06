@@ -1,6 +1,6 @@
 export const products = [
     {
-        _id: 1,
+        id: 1,
         name: 'Sản phẩm 1',
         source: require('../../assets/images/1.png'),
         description: 'Mô tả sản phẩm 1',
@@ -10,7 +10,7 @@ export const products = [
         numReviews: 10,
     },
     {
-        _id: 2,
+        id: 2,
         name: 'Sản phẩm 2',
         source: require('../../assets/images/2.png'),
         description: 'Mô tả sản phẩm 2',
@@ -20,17 +20,17 @@ export const products = [
         numReviews: 8,
     },
     {
-        _id: 3,
+        id: 3,
         name: 'Sản phẩm 3',
         source: require('../../assets/images/3.png'),
         description: 'Mô tả sản phẩm 3',
         price: 24.99,
-        countInStock: 10,
+        countInStock: 0,
         rating: 4.8,
         numReviews: 12,
     },
     {
-        _id: 4,
+        id: 4,
         name: 'Sản phẩm 4',
         source: require('../../assets/images/4.png'),
         description: 'Mô tả sản phẩm 4',
@@ -40,7 +40,7 @@ export const products = [
         numReviews: 9,
     },
     {
-        _id: 5,
+        id: 5,
         name: 'Sản phẩm 5',
         source: require('../../assets/images/5.png'),
         description: 'Mô tả sản phẩm 5',
@@ -50,7 +50,7 @@ export const products = [
         numReviews: 11,
     },
     {
-        _id: 6,
+        id: 6,
         name: 'Sản phẩm 6',
         source: require('../../assets/images/6.png'),
         description: 'Mô tả sản phẩm 6',
@@ -60,7 +60,7 @@ export const products = [
         numReviews: 14,
     },
     {
-        _id: 7,
+        id: 7,
         name: 'Sản phẩm 7',
         source: require('../../assets/images/7.png'),
         description: 'Mô tả sản phẩm 7',
@@ -70,7 +70,7 @@ export const products = [
         numReviews: 15,
     },
     {
-        _id: 8,
+        id: 8,
         name: 'Sản phẩm 8',
         source: require('../../assets/images/8.png'),
         description: 'Mô tả sản phẩm 8',
@@ -80,7 +80,7 @@ export const products = [
         numReviews: 7,
     },
     {
-        _id: 9,
+        id: 9,
         name: 'Sản phẩm 9',
         source: require('../../assets/images/9.png'),
         description: 'Mô tả sản phẩm 9',
@@ -90,7 +90,7 @@ export const products = [
         numReviews: 13,
     },
     {
-        _id: 10,
+        id: 10,
         name: 'Sản phẩm 10',
         source: require('../../assets/images/10.png'),
         description: 'Mô tả sản phẩm 10',
@@ -100,7 +100,7 @@ export const products = [
         numReviews: 6,
     },
     {
-        _id: 11,
+        id: 11,
         name: 'Sản phẩm 11',
         source: require('../../assets/images/11.png'),
         description: 'Mô tả sản phẩm 11',
@@ -110,7 +110,7 @@ export const products = [
         numReviews: 10,
     },
     {
-        _id: 12,
+        id: 12,
         name: 'Sản phẩm 12',
         source: require('../../assets/images/12.png'),
         description: 'Mô tả sản phẩm 12',
@@ -120,7 +120,7 @@ export const products = [
         numReviews: 8,
     },
     {
-        _id: 13,
+        id: 13,
         name: 'Sản phẩm 13',
         source: require('../../assets/images/13.png'),
         description: 'Mô tả sản phẩm 13',
@@ -130,7 +130,7 @@ export const products = [
         numReviews: 12,
     },
     {
-        _id: 14,
+        id: 14,
         name: 'Sản phẩm 14',
         source: require('../../assets/images/14.png'),
         description: 'Mô tả sản phẩm 14',

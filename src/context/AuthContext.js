@@ -2,8 +2,6 @@ const { createContext, useState } = require('react');
 
 const authContext = createContext();
 
-
-
 const AuthProvider = ({ children }) => {
     // const [value, setValue] = useState('');
     const [authState, setAuthState] = useState({

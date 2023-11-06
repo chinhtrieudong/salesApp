@@ -10,22 +10,30 @@ import {
 } from 'native-base';
 import React from 'react';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { products } from '../data/Products';
 import Colors from '../Colors';
 import { FontAwesome } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCartData } from '../store/cart-actions';
+import { cartActions } from '../store/cart-slice';
 
-const Swiper = () => (
-    <SwipeListView
-        rightOpenValue={-50}
-        previewRowKey="0"
-        previewOpenValue={-40}
-        previewOpenDelay={3000}
-        data={products.slice(0, 2)}
-        renderItem={renderItem}
-        renderHiddenItem={hiddenItem}
-        showsVerticalScrollIndicator={false}
-    />
-);
+const Swiper = ({ dispatch }) => {
+    const cart = useSelector((state) => state.cart);
+    const cartItems = cart.itemList;
+    return (
+        <SwipeListView
+            rightOpenValue={-50}
+            previewRowKey="0"
+            previewOpenValue={-40}
+            previewOpenDelay={3000}
+            data={cartItems}
+            renderItem={renderItem}
+            renderHiddenItem={(data) =>
+                hiddenItem({ dispatch, item: data.item })
+            }
+            showsVerticalScrollIndicator={false}
+        />
+    );
+};
 
 function renderItem(data) {
     return (
@@ -57,7 +65,7 @@ function renderItem(data) {
                             {data.item.name}
                         </Text>
                         <Text bold color={Colors.lightBlack}>
-                            ${data.item.price}
+                            ${data.item.totalPrice.toFixed(2)}
                         </Text>
                     </VStack>
                     <Center>
@@ -66,7 +74,7 @@ function renderItem(data) {
                             _text={{ color: Colors.white }}
                             _pressed={{ bg: Colors.main }}
                         >
-                            5
+                            {data.item.quantity}
                         </Button>
                     </Center>
                 </HStack>
@@ -76,7 +84,7 @@ function renderItem(data) {
 }
 
 // Hidden
-const hiddenItem = () => {
+const hiddenItem = ({ dispatch, item }) => {
     return (
         <Pressable
             w={50}
@@ -86,6 +94,7 @@ const hiddenItem = () => {
             ml="auto"
             justifyContent="center"
             bg={Colors.red}
+            onPress={() => dispatch(cartActions.removeFromCart(item.id))}
         >
             <Center alignItems="center" space={2}>
                 <FontAwesome name="trash" size={24} color={Colors.white} />
@@ -95,9 +104,11 @@ const hiddenItem = () => {
 };
 
 const CartItems = () => {
+    const dispatch = useDispatch();
+    const cartProducts = dispatch(fetchCartData());
     return (
         <Box mr={6}>
-            <Swiper />
+            <Swiper dispatch={dispatch} />
         </Box>
     );
 };

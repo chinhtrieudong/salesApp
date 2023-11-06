@@ -1,36 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { Center, HStack, Modal, VStack, Text, Button } from 'native-base';
+
 import Buttone from './Buttone';
 import Colors from '../Colors';
-import { useNavigation } from '@react-navigation/native';
+import { OrdersInfos } from '../data/OrdersInfos';
 
-const OrdersInfos = [
-    {
-        title: 'Products',
-        price: 125.77,
-        color: 'black',
-    },
-    {
-        title: 'Shipping',
-        price: 34.0,
-        color: 'black',
-    },
-    {
-        title: 'Tax',
-        price: 23.34,
-        color: 'black',
-    },
-    {
-        title: 'Total Amount',
-        price: 3458.0,
-        color: 'main',
-    },
-];
-
-const PlaceOrderModel = () => {
+const PlaceOrderModel = ({ data }) => {
     const navigation = useNavigation();
-
     const [showModel, setShowModel] = useState(false);
+    const ordersInfoList = OrdersInfos();
+    const state = data.params;
 
     return (
         <Center>
@@ -52,7 +32,7 @@ const PlaceOrderModel = () => {
                     <Modal.Header>Order</Modal.Header>
                     <Modal.Body>
                         <VStack space={7}>
-                            {OrdersInfos.map((i, index) => (
+                            {ordersInfoList.map((i, index) => (
                                 <HStack
                                     key={index}
                                     alignItems="center"
@@ -80,7 +60,7 @@ const PlaceOrderModel = () => {
                             h={45}
                             _text={{ color: Colors.white }}
                             onPress={() => {
-                                navigation.navigate('Order');
+                                navigation.navigate('Order', state);
                                 setShowModel(false);
                             }}
                             _pressed={{

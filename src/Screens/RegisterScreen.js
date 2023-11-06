@@ -41,7 +41,7 @@ const RegisterScreen = ({ navigation }) => {
                 <Image
                     flex={1}
                     alt="Logo"
-                    resizeMethod="cover"
+                    resizeMethod="resize"
                     size={'lg'}
                     w={'full'}
                     source={require('../../assets/cover.png')}

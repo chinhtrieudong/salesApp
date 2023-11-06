@@ -3,6 +3,7 @@ import { Box } from 'native-base';
 import Colors from '../Colors';
 import HomeProducts from '../Components/HomeProducts';
 import HomeSearch from '../Components/HomeSearch';
+import Category from '../Components/Category';
 
 const HomeScreen = () => {
     return (

@@ -9,6 +9,10 @@ const authSlice = createSlice({
         loginUser: (state, action) => {
             state.currentUser = action.payload;
         },
+        removeUser: (state) => {
+            console.log('oke');
+            state.currentUser = {};
+        },
     },
 });
 

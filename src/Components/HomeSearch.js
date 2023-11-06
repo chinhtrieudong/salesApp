@@ -4,9 +4,12 @@ import React from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import Colors from '../Colors';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 function HomeSearch(props) {
     const navigation = useNavigation();
+    const cart = useSelector((state) => state.cart);
+    const totalQuantity = cart.totalQuantity;
     return (
         <HStack
             space={3}
@@ -47,7 +50,7 @@ function HomeSearch(props) {
                         fontSize: '11px',
                     }}
                 >
-                    5
+                    {totalQuantity}
                 </Box>
             </Pressable>
         </HStack>

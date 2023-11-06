@@ -1,12 +1,15 @@
 import { Box, Heading, ScrollView } from 'native-base';
-import React from 'react';
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import Colors from '../Colors';
 import OrderInfo from '../Components/OrderInfo';
 import OrderItem from '../Components/OrderItem';
 import OrderModel from '../Components/OrderModel';
 
-const OrderScreen = () => {
+const OrderScreen = ({ route }) => {
+    // const user = useSelector((state) => state.auth);
+    // const { email, name } = user.currentUser;
+    const [city, country, ...rest] = route.params;
+    const payMethod = route.params.find((item) => item.pay);
     return (
         <Box bg={Colors.subGreen} flex={1} safeArea pt={6}>
             <Box>
@@ -16,9 +19,9 @@ const OrderScreen = () => {
                 >
                     <OrderInfo
                         title="SHIPPING INFO"
-                        success
                         subTitle="Shipping: Hackfb"
-                        text="Pay Method: Paypal"
+                        text={`Pay Method: ${payMethod.pay}`}
+                        danger
                         icon={
                             <FontAwesome5
                                 name="shipping-fast"
@@ -30,7 +33,7 @@ const OrderScreen = () => {
                     <OrderInfo
                         title="DELIVER TO"
                         subTitle="Adress:"
-                        text="Japan, Osaka"
+                        text={`${country.data}, ${city.data}`}
                         danger
                         icon={
                             <Ionicons
@@ -49,7 +52,7 @@ const OrderScreen = () => {
                 </Heading>
                 <OrderItem />
                 {/* Total */}
-                <OrderModel />
+                <OrderModel data={route} />
             </Box>
         </Box>
     );

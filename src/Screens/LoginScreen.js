@@ -1,43 +1,53 @@
-import React, { useState } from 'react';
 import {
     Box,
     Button,
     Heading,
+    FormControl,
+    WarningOutlineIcon,
     Image,
     Input,
     VStack,
     Pressable,
     Text,
 } from 'native-base';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Toast from 'react-native-toast-message';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+
 import Colors from '../Colors';
-import { useDispatch } from 'react-redux';
-import { getProfileFetch, userLoginFetch } from '../store/auth-actions';
-import { useEffect } from 'react';
+import { userLoginFetch } from '../store/auth-actions';
 
 const LoginScreen = ({ navigation }) => {
     const dispatch = useDispatch();
-    const [email, setEmail] = useState('');
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [isWrong, setIsWrong] = useState(false);
 
-    const state = {
-        email,
+    const currentUser = useSelector((state) => state.auth);
+    const currentUserData = currentUser.currentUser;
+
+    const user = {
         username,
         password,
     };
-
     useEffect(() => {
-        // Use useEffect to replace componentDidMount
-        dispatch(getProfileFetch());
-    }, []);
+        if (currentUserData.id) {
+            console.log('currentUserData:', currentUserData.id);
+            navigation.navigate('Bottom');
+        }
+    }, [currentUserData, navigation]);
 
     const handleSubmit = () => {
-        dispatch(userLoginFetch(state));
-    };
+        dispatch(userLoginFetch(user));
 
-    // console.log(AsyncStorage.getItem('token'));
+        if (currentUserData.id) {
+            setIsWrong(false);
+        } else {
+            setIsWrong(true);
+        }
+    };
 
     return (
         <>
@@ -45,7 +55,7 @@ const LoginScreen = ({ navigation }) => {
                 <Image
                     flex={1}
                     alt="Logo"
-                    resizeMethod="cover"
+                    resizeMethod="resize"
                     size={'lg'}
                     w={'full'}
                     source={require('../../assets/cover.png')}
@@ -60,43 +70,59 @@ const LoginScreen = ({ navigation }) => {
                 justifyContent="center"
             >
                 <Heading>LOGIN</Heading>
-                <VStack space={8} pt={6}>
-                    <Input
-                        InputLeftElement={
-                            <MaterialIcons
-                                name="email"
-                                size={24}
-                                color={Colors.main}
-                            />
-                        }
-                        variant="underlined"
-                        placeholder="user@gmail.com"
-                        w="70%"
-                        pl={2}
-                        color={Colors.main}
-                        borderBottomColor={Colors.underline}
-                        value={username}
-                        onChangeText={(username) => setUsername(username)}
-                    />
-                    <Input
-                        InputLeftElement={
-                            <Ionicons
-                                name="eye"
-                                size={20}
-                                color={Colors.main}
-                            />
-                        }
-                        variant="underlined"
-                        placeholder="********"
-                        w="70%"
-                        type="password"
-                        pl={2}
-                        color={Colors.main}
-                        borderBottomColor={Colors.underline}
-                        value={password}
-                        onChangeText={(password) => setPassword(password)}
-                    />
-                </VStack>
+                <FormControl isInvalid={isWrong}>
+                    <VStack space={8} pt={6}>
+                        <Input
+                            InputLeftElement={
+                                <MaterialIcons
+                                    name="email"
+                                    size={24}
+                                    color={Colors.main}
+                                />
+                            }
+                            variant="underlined"
+                            placeholder="user@gmail.com"
+                            w="70%"
+                            pl={2}
+                            color={Colors.main}
+                            borderBottomColor={Colors.underline}
+                            value={username}
+                            onChangeText={(username) => setUsername(username)}
+                        />
+
+                        <FormControl.ErrorMessage
+                            mt={-5}
+                            leftIcon={<WarningOutlineIcon size="xs" />}
+                        >
+                            Incorrect password or email address.
+                        </FormControl.ErrorMessage>
+
+                        <Input
+                            InputLeftElement={
+                                <Ionicons
+                                    name="eye"
+                                    size={20}
+                                    color={Colors.main}
+                                />
+                            }
+                            variant="underlined"
+                            placeholder="********"
+                            w="70%"
+                            type="password"
+                            pl={2}
+                            color={Colors.main}
+                            borderBottomColor={Colors.underline}
+                            value={password}
+                            onChangeText={(password) => setPassword(password)}
+                        />
+                        <FormControl.ErrorMessage
+                            mt={-5}
+                            leftIcon={<WarningOutlineIcon size="xs" />}
+                        >
+                            Incorrect password or email address.
+                        </FormControl.ErrorMessage>
+                    </VStack>
+                </FormControl>
                 <Button
                     _pressed={{
                         bg: Colors.main,

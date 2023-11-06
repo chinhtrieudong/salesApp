@@ -12,13 +12,15 @@ import {
 import React from 'react';
 import { products } from '../data/Products';
 import Colors from '../Colors';
+import { useSelector } from 'react-redux';
 
 const OrderItem = () => {
+    const cartItems = useSelector((state) => state.cart.itemList);
     return (
         <FlatList
             showsVerticalScrollIndicator={false}
-            data={products.slice(0, 3)}
-            keyExtractor={(item) => item._id}
+            data={cartItems}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
                 <Pressable>
                     <Box mb={3}>
@@ -48,7 +50,7 @@ const OrderItem = () => {
                                     {item.name}
                                 </Text>
                                 <Text color={Colors.lightBlack} mt={2} bold>
-                                    ${item.price}
+                                    ${item.totalPrice}
                                 </Text>
                             </VStack>
                             <Center>
@@ -57,7 +59,7 @@ const OrderItem = () => {
                                     _pressed={{ bg: Colors.main }}
                                     _text={{ color: Colors.white }}
                                 >
-                                    5
+                                    {item.quantity}
                                 </Button>
                             </Center>
                         </HStack>

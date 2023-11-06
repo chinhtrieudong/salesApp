@@ -5,8 +5,14 @@ import Colors from '../Colors';
 import OrderInfo from '../Components/OrderInfo';
 import OrderItem from '../Components/OrderItem';
 import PlaceOrderModel from '../Components/PlaceOrderModel';
+import { useSelector } from 'react-redux';
 
-const PlaceOrderScreen = () => {
+const PlaceOrderScreen = ({ route }) => {
+    const user = useSelector((state) => state.auth);
+    const { email, name } = user.currentUser;
+    const [city, country, ...rest] = route.params;
+    const payMethod = route.params.find((item) => item.pay);
+
     return (
         <Box bg={Colors.subGreen} flex={1} safeArea pt={6}>
             <Box>
@@ -16,8 +22,8 @@ const PlaceOrderScreen = () => {
                 >
                     <OrderInfo
                         title="CUSTOMER"
-                        subTitle="Chinh"
-                        text="chinh@gmail.com"
+                        subTitle={name}
+                        text={email}
                         success
                         icon={
                             <FontAwesome
@@ -30,7 +36,7 @@ const PlaceOrderScreen = () => {
                     <OrderInfo
                         title="SHIPPING INFO"
                         subTitle="Shipping: Hackfb"
-                        text="Pay Method: Paypal"
+                        text={`Pay Method: ${payMethod.pay}`}
                         danger
                         icon={
                             <FontAwesome5
@@ -43,7 +49,7 @@ const PlaceOrderScreen = () => {
                     <OrderInfo
                         title="DELIVER TO"
                         subTitle="Adress:"
-                        text="Japan, Osaka"
+                        text={`${country.data}, ${city.data}`}
                         danger
                         icon={
                             <Ionicons
@@ -62,7 +68,7 @@ const PlaceOrderScreen = () => {
                 </Heading>
                 <OrderItem />
                 {/* Total */}
-                <PlaceOrderModel />
+                <PlaceOrderModel data={route} />
             </Box>
         </Box>
     );
