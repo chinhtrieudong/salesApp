@@ -9,17 +9,20 @@ import {
     Pressable,
     Image,
 } from 'native-base';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import Colors from '../Colors';
 import Buttone from './Buttone';
 import { OrdersInfos, calculateTotalPrice } from '../data/OrdersInfos';
 import { sendOrderData } from '../store/order-actions';
+import { orderActions } from '../store/order-slice';
 
 const OrderModel = ({ data }) => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     const [showModel, setShowModel] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [orderDate, setCurrentDate] = useState('');
     const cartItems = useSelector((state) => state.cart);
     const currentUser = useSelector((state) => state.auth.currentUser.id);
 
@@ -32,13 +35,28 @@ const OrderModel = ({ data }) => {
         setTotalPrice(calculateTotalPrice(cartItems));
     }, [cartItems]);
 
+    useEffect(() => {
+        let today = new Date();
+        let date =
+            today.getDate() +
+            '-' +
+            parseInt(today.getMonth() + 1) +
+            '-' +
+            today.getFullYear();
+        setCurrentDate(date);
+    }, []);
+
     const state = [
+        { orderDate },
         ...data.params,
         { cartItems: itemList, totalQuantity, totalPrice },
     ];
 
+    const [date, deliveryInfo, pay, orderInfo] = state;
+
     const handlePay = () => {
         sendOrderData(currentUser, state);
+        dispatch(orderActions.addOrder({ date, deliveryInfo, pay, orderInfo }));
     };
 
     return (
@@ -107,7 +125,7 @@ const OrderModel = ({ data }) => {
                             h={45}
                             _text={{ color: Colors.white }}
                             onPress={() => {
-                                navigation.navigate('Home');
+                                // navigation.navigate('Home');
                                 setShowModel(false);
                                 handlePay();
                             }}

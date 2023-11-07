@@ -6,10 +6,8 @@ import OrderItem from '../Components/OrderItem';
 import OrderModel from '../Components/OrderModel';
 
 const OrderScreen = ({ route }) => {
-    // const user = useSelector((state) => state.auth);
-    // const { email, name } = user.currentUser;
-    const [city, country, ...rest] = route.params;
-    const payMethod = route.params.find((item) => item.pay);
+    const [deliveryInfo, pay] = route.params;
+    const payMethod = pay;
     return (
         <Box bg={Colors.subGreen} flex={1} safeArea pt={6}>
             <Box>
@@ -33,7 +31,7 @@ const OrderScreen = ({ route }) => {
                     <OrderInfo
                         title="DELIVER TO"
                         subTitle="Adress:"
-                        text={`${country.data}, ${city.data}`}
+                        text={`${deliveryInfo.country}, ${deliveryInfo.city}`}
                         danger
                         icon={
                             <Ionicons

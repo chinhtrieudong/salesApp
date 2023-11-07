@@ -10,8 +10,8 @@ import { useSelector } from 'react-redux';
 const PlaceOrderScreen = ({ route }) => {
     const user = useSelector((state) => state.auth);
     const { email, name } = user.currentUser;
-    const [city, country, ...rest] = route.params;
-    const payMethod = route.params.find((item) => item.pay);
+    const [deliveryInfo, pay] = route.params;
+    const payMethod = pay;
 
     return (
         <Box bg={Colors.subGreen} flex={1} safeArea pt={6}>
@@ -49,7 +49,7 @@ const PlaceOrderScreen = ({ route }) => {
                     <OrderInfo
                         title="DELIVER TO"
                         subTitle="Adress:"
-                        text={`${country.data}, ${city.data}`}
+                        text={`${deliveryInfo.country}, ${deliveryInfo.city}`}
                         danger
                         icon={
                             <Ionicons

@@ -15,9 +15,16 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
+// export function sendOrderData(userId, currentDate, orderItem) {
+//     const db = getDatabase();
+//     const reference = ref(db, 'orderList/' + userId + '/' + currentDate);
+//     set(reference, {
+//         orderItem,
+//     });
+// }
 export function sendOrderData(userId, orderItem) {
     const db = getDatabase();
-    const reference = ref(db, 'orderList/' + userId);
+    const reference = ref(db, userId + '/' + 'orderList');
     set(reference, {
         orderItem,
     });

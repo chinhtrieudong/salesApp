@@ -20,19 +20,16 @@ const paymentMethodes = [
         value: '1',
         image: require('../../assets/images/paypal.png'),
         alt: 'paypal',
-        icon: 'Ionicons',
     },
     {
         value: '2',
         image: require('../../assets/images/discover.png'),
         alt: 'discover',
-        icon: 'FontAwesome',
     },
     {
         value: '3',
         image: require('../../assets/images/googlepay.png'),
         alt: 'googlepay',
-        icon: 'FontAwesome',
     },
 ];
 
@@ -86,7 +83,7 @@ const PaymentScreen = ({ route, navigation }) => {
                                         <Ionicons
                                             name="checkmark-circle"
                                             size={30}
-                                            color={Colors.main}
+                                            color="black"
                                         />
                                     ) : (
                                         <FontAwesome
